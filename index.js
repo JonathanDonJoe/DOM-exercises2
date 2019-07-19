@@ -24,13 +24,15 @@ function turnBlue(box) {
 
 
 function clickButton(event) {
-    event.target.dataset.number -= 1;
-    if(event.target.dataset.number <= 0) {
-        event.target.dataset.number = 0;
-        event.target.innerHTML = `I can't be clicked anymore`
-        turnBlue(event.target)
-    } else {
-        event.target.innerHTML = `I can be clicked ${event.target.dataset.number} times`;
+    if ( event.target !== event.currentTarget){
+        event.target.dataset.number -= 1;
+        if(event.target.dataset.number === "0") {
+            event.target.innerHTML = `I can't be clicked anymore`
+            turnBlue(event.target)
+            event.target.disabled=true;
+        } else {
+            event.target.innerHTML = `I can be clicked ${event.target.dataset.number} times`;
+        }
     }
 }
 
@@ -41,10 +43,8 @@ function createButton () {
     element.innerHTML += `I can be clicked ${realRand} times`
     console.log(element);
     container.appendChild(element);
-    element.addEventListener('click', clickButton);
 }
 
-
+container.addEventListener('click', clickButton);
 
 addBtn.addEventListener('click', createButton);
-junkBtn.addEventListener('click', clickButton);
